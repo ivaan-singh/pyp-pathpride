@@ -101,11 +101,18 @@
     .pills { display: flex; flex-wrap: wrap; gap: 10px; }
     .pill { border: 1px solid var(--line); border-radius: 999px; padding: 10px 14px; background: #fff; font-weight: 850; }
 
+    .login-grid { display: grid; grid-template-columns: minmax(280px, 520px); gap: 18px; }
+    .login-card { max-width: 520px; }
     .login-grid { display: grid; grid-template-columns: 0.82fr 1.18fr; gap: 18px; }
     label { display: block; margin-top: 14px; font-weight: 850; }
     select, input { width: 100%; margin-top: 8px; border: 1px solid var(--line); border-radius: 16px; padding: 13px 14px; color: var(--ink); background: #fff; outline: 0; }
     .tabs { display: flex; flex-wrap: wrap; gap: 8px; margin: 18px 0; }
     .login-button { width: 100%; justify-content: center; margin-top: 18px; color: white; border: 0; background: linear-gradient(135deg, var(--blue), var(--cyan)); }
+    .logged-in { display: none; margin-top: 22px; }
+    .logged-in.active { display: block; }
+    .dashboard-page { padding: 28px; }
+    .dashboard-hero { display: flex; align-items: flex-start; justify-content: space-between; gap: 18px; margin-bottom: 20px; }
+    .status-badge { border: 1px solid rgba(36, 107, 254, 0.18); border-radius: 999px; padding: 10px 14px; color: var(--blue); background: rgba(36, 107, 254, 0.08); font-weight: 900; white-space: nowrap; }
     .logged-out-note { margin-top: 14px; }
     .logged-in { display: none; }
     .logged-in.active { display: block; }
@@ -188,6 +195,8 @@
         <div><div class="eyebrow">Login section</div><h2>Teacher and council access only.</h2></div>
         <p>There is no normal student login. Teachers can edit, while council members can view the dashboard and analysis.</p>
       </div>
+      <div class="login-grid" id="loginForm">
+        <div class="panel login-card">
       <div class="login-grid">
         <div class="panel">
           <h3>Identify position</h3>
@@ -196,6 +205,33 @@
           <label for="name">Name</label>
           <input id="name" value="Ivaan Singh" />
           <button class="login-button" onclick="loginUser()">Log in</button>
+        </div>
+      </div>
+      <div class="panel logged-in dashboard-page" id="loggedInPanel">
+        <div class="dashboard-hero">
+          <div>
+            <div class="eyebrow">Logged-in page</div>
+            <h2 id="title">Council dashboard</h2>
+            <p id="welcome">Log in to load your teacher/council dashboard.</p>
+          </div>
+          <span class="status-badge" id="access">Logged in</span>
+        </div>
+        <div class="stats">
+          <div class="stat-card"><p>Active sections</p><b>4</b></div>
+          <div class="stat-card"><p>Weeks visible</p><b>All</b></div>
+          <div class="stat-card"><p>Current week</p><b>349</b></div>
+          <div class="stat-card"><p>Previous week</p><b>326</b></div>
+        </div>
+        <div class="dashboard-stack">
+          <div class="filter-block"><span class="filter-label">Top: all sections</span><div class="tabs"><button class="active">All sections</button><button>Service</button><button>Spirit</button><button>Events</button><button>Conduct</button></div></div>
+          <div class="filter-block"><span class="filter-label">Underneath: all weeks</span><div class="tabs"><button class="active" onclick="setWeek('All weeks')">All weeks</button><button onclick="setWeek('Week 1')">Week 1</button><button onclick="setWeek('Week 2')">Week 2</button><button onclick="setWeek('Week 3')">Week 3</button><button onclick="setWeek('Week 4')">Week 4</button></div></div>
+          <div class="filter-block"><span class="filter-label">Current week and previous option</span><div class="tabs"><button class="active" onclick="setWeek('Current week')">Current week</button><button onclick="setWeek('Previous week')">Previous week</button></div></div>
+          <div class="filter-block"><span class="filter-label">Then: all analysis types</span><div class="tabs"><button>Overview</button><button>In-depth analysis</button><button>Point type</button><button>Feedback notes</button><button>Section trends</button></div></div>
+        </div>
+        <div class="overview-grid" style="margin-top: 18px;">
+          <div class="panel" style="box-shadow: none;"><h3>Role permissions</h3><div class="access-row"><span>Identified as</span><b id="identified">Council President</b></div><div class="access-row"><span>Point type access</span><b id="pointType">All point types</b></div><div class="access-row"><span>Editing access</span><b id="editing">Enabled</b></div></div>
+          <div class="panel" style="box-shadow: none;"><h3>In-depth analysis</h3><p id="analysisCopy">Choose any section, week, or analysis type to review council performance.</p><div class="score-row"><span>Service</span><span class="track"><span class="fill" style="--w:94%"></span></span><b>94</b></div><div class="score-row"><span>Spirit</span><span class="track"><span class="fill" style="--w:88%"></span></span><b>88</b></div><div class="score-row"><span>Events</span><span class="track"><span class="fill" style="--w:81%"></span></span><b>81</b></div></div>
+        </div>
           <p class="logged-out-note" id="permission">Every login is valid for now. Choose your role, press Log in, and the dashboard will identify your access level.</p>
         </div>
         <div class="panel logged-in" id="loggedInPanel">
@@ -227,6 +263,9 @@
 
     function loginUser() {
       document.getElementById('loggedInPanel').classList.add('active');
+      document.getElementById('loginForm').style.display = 'none';
+      updateRole();
+      document.getElementById('loggedInPanel').scrollIntoView({ behavior: 'smooth', block: 'start' });
       updateRole();
     }
 
