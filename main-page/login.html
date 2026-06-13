@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Login | PathPride</title>
+  <style>
+    :root { --ink:#172033; --muted:#697386; --line:#e7edf5; --blue:#246bfe; --cyan:#2dd4ff; --green:#12c99b; --shadow:0 24px 70px rgba(35,77,132,.14); }
+    * { box-sizing:border-box; }
+    body { margin:0; min-height:100vh; font-family:Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; color:var(--ink); background:radial-gradient(circle at 8% 6%, rgba(45,212,255,.28), transparent 30%), linear-gradient(180deg,#fff 0%,#f4f8ff 52%,#eef7ff 100%); }
+    .shell { width:min(1120px, calc(100% - 36px)); margin:auto; padding:24px 0 56px; }
+    .nav { display:flex; justify-content:space-between; align-items:center; gap:18px; padding:14px 16px; border:1px solid rgba(36,107,254,.10); border-radius:28px; background:rgba(255,255,255,.78); backdrop-filter:blur(18px); box-shadow:0 16px 46px rgba(36,107,254,.10); }
+    .brand { font-weight:950; letter-spacing:-.04em; }
+    .links { display:flex; flex-wrap:wrap; gap:8px; }
+    .links a, button { border:1px solid var(--line); color:var(--ink); background:#fff; border-radius:999px; padding:10px 15px; text-decoration:none; font-weight:850; cursor:pointer; transition:.18s ease; }
+    .links a:hover, button:hover, button.active { transform:translateY(-2px); border-color:rgba(36,107,254,.34); box-shadow:0 12px 28px rgba(36,107,254,.12); }
+    .page { padding:64px 0 24px; }
+    .eyebrow { color:var(--blue); font-size:.78rem; font-weight:950; text-transform:uppercase; letter-spacing:.18em; }
+    h1 { max-width:850px; margin:12px 0 16px; font-size:clamp(2.5rem,6vw,5.4rem); line-height:.92; letter-spacing:-.08em; }
+    p { color:var(--muted); line-height:1.72; font-size:1.02rem; }
+    .dashboard { display:grid; grid-template-columns:.82fr 1.18fr; gap:18px; }
+    .panel { padding:24px; border:1px solid var(--line); border-radius:28px; background:rgba(255,255,255,.86); box-shadow:var(--shadow); }
+    label { display:block; margin-top:14px; font-weight:850; }
+    select, input { width:100%; margin-top:8px; border:1px solid var(--line); border-radius:16px; padding:13px 14px; color:var(--ink); background:#fff; outline:0; }
+    .tabs { display:flex; flex-wrap:wrap; gap:8px; margin:18px 0; }
+    .stat { display:flex; justify-content:space-between; gap:12px; margin-top:10px; padding:15px; border:1px solid var(--line); border-radius:18px; color:var(--muted); background:#fff; }
+    .stat b { color:var(--ink); }
+    @media (max-width:860px) { .nav { align-items:flex-start; flex-direction:column; } .dashboard { grid-template-columns:1fr; } }
+  </style>
+</head>
+<body>
+  <main class="shell">
+    <nav class="nav"><div class="brand">PathPride Login</div><div class="links"><a href="index.html">Home</a><a href="feedback.html">Feedback</a><a href="overview.html">Overview</a></div></nav>
+    <section class="page">
+      <div class="eyebrow">Teacher and council access only</div>
+      <h1>Login section with role-based permissions.</h1>
+      <p>This page is for teachers, the council president, and council members. It intentionally does not include a normal student login.</p>
+    </section>
+    <section class="dashboard">
+      <div class="panel">
+        <h2>Identify position</h2>
+        <label for="role">Role</label>
+        <select id="role" onchange="updateRole()"><option>President</option><option>Teacher</option><option>Council Member</option></select>
+        <label for="name">Name</label>
+        <input id="name" value="Ivaan Singh" />
+        <div class="tabs"><button class="active" onclick="setWeek('Current week')">Current week</button><button onclick="setWeek('Previous week')">Previous week</button><button onclick="setWeek('All weeks')">All weeks</button></div>
+        <p id="permission">President access: view everything, review council notes, and prepare final leadership analysis.</p>
+      </div>
+      <div class="panel">
+        <h2 id="title">Current week dashboard</h2>
+        <div class="tabs"><button>All sections</button><button>Point type</button><button>In-depth analysis</button><button>Feedback notes</button></div>
+        <div class="stat"><span>Access mode</span><b id="access">Leadership</b></div>
+        <div class="stat"><span>Editing access</span><b id="editing">Enabled</b></div>
+        <div class="stat"><span>Current-week flags</span><b>7</b></div>
+        <div class="stat"><span>Previous-week change</span><b>+23</b></div>
+      </div>
+    </section>
+  </main>
+  <script>
+    function setWeek(label) {
+      document.getElementById('title').textContent = label + ' dashboard';
+    }
+
+    function updateRole() {
+      const role = document.getElementById('role').value;
+      const permissions = {
+        President: 'President access: view everything, review council notes, and prepare final leadership analysis.',
+        Teacher: 'Teacher access: edit points, update categories, and open in-depth section reports.',
+        'Council Member': 'Council member access: view-only analysis for all sections, all weeks, and point types.'
+      };
+
+      document.getElementById('permission').textContent = permissions[role];
+      document.getElementById('access').textContent = role === 'Council Member' ? 'View only' : role;
+      document.getElementById('editing').textContent = role === 'Council Member' ? 'View only' : 'Enabled';
+    }
+  </script>
+</body>
+</html>
