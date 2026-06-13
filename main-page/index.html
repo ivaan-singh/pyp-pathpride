@@ -9,8 +9,7 @@
       --ink: #172033;
       --muted: #697386;
       --line: #e7edf5;
-      --panel: rgba(255, 255, 255, 0.86);
-      --soft: #f7fbff;
+      --panel: rgba(255, 255, 255, 0.88);
       --blue: #246bfe;
       --cyan: #2dd4ff;
       --green: #12c99b;
@@ -18,6 +17,7 @@
     }
 
     * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
 
     body {
       margin: 0;
@@ -52,39 +52,69 @@
     .logo { width: 44px; height: 44px; border-radius: 15px; display: grid; place-items: center; color: white; background: linear-gradient(135deg, var(--blue), var(--cyan)); box-shadow: 0 14px 32px rgba(36, 107, 254, 0.28); }
     .brand small { display: block; color: var(--muted); letter-spacing: 0; font-weight: 700; }
     .links { display: flex; flex-wrap: wrap; gap: 8px; }
-    .links a, .button { border: 1px solid var(--line); color: var(--ink); background: white; border-radius: 999px; padding: 10px 15px; text-decoration: none; font-weight: 800; transition: 0.18s ease; }
-    .links a:hover, .button:hover { transform: translateY(-2px); border-color: rgba(36, 107, 254, 0.34); box-shadow: 0 12px 28px rgba(36, 107, 254, 0.12); }
+    .links a, .button, button { border: 1px solid var(--line); color: var(--ink); background: white; border-radius: 999px; padding: 10px 15px; text-decoration: none; font-weight: 850; cursor: pointer; transition: 0.18s ease; }
+    .links a:hover, .button:hover, button:hover, button.active { transform: translateY(-2px); border-color: rgba(36, 107, 254, 0.34); box-shadow: 0 12px 28px rgba(36, 107, 254, 0.12); }
     .button.primary { color: white; border: 0; background: linear-gradient(135deg, var(--blue), var(--cyan)); }
 
     .hero { display: grid; grid-template-columns: 1.04fr 0.96fr; gap: 38px; align-items: center; min-height: 72vh; padding: 58px 0 32px; }
     .eyebrow { color: var(--blue); font-size: 0.78rem; font-weight: 950; text-transform: uppercase; letter-spacing: 0.18em; }
     h1 { margin: 12px 0 16px; font-size: clamp(2.8rem, 7vw, 6.2rem); line-height: 0.92; letter-spacing: -0.085em; }
-    h2 { margin: 0 0 10px; font-size: clamp(1.45rem, 3vw, 2.15rem); letter-spacing: -0.055em; }
+    h2 { margin: 0 0 10px; font-size: clamp(1.6rem, 3vw, 2.35rem); letter-spacing: -0.055em; }
+    h3 { margin: 12px 0 8px; }
     p { color: var(--muted); line-height: 1.72; font-size: 1.02rem; }
     .actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 26px; }
 
-    .preview { border: 1px solid rgba(36, 107, 254, 0.12); border-radius: 34px; padding: 18px; background: rgba(255,255,255,0.74); box-shadow: var(--shadow); }
+    .preview, .section-card, .panel, .stat-card {
+      border: 1px solid var(--line);
+      border-radius: 30px;
+      background: var(--panel);
+      box-shadow: var(--shadow);
+    }
+
+    .preview { padding: 18px; }
     .screen { overflow: hidden; border: 1px solid var(--line); border-radius: 25px; background: #fff; }
     .topbar { display: flex; gap: 7px; padding: 14px; background: #f3f7fb; }
     .dot { width: 11px; height: 11px; border-radius: 50%; background: #ff6b6b; }
     .dot:nth-child(2) { background: #ffc857; }
     .dot:nth-child(3) { background: var(--green); }
     .rows { display: grid; gap: 14px; padding: 22px; }
-    .metric { display: grid; grid-template-columns: 82px 1fr 44px; align-items: center; gap: 12px; color: var(--muted); font-weight: 750; }
+    .metric, .score-row { display: grid; grid-template-columns: 95px 1fr 44px; align-items: center; gap: 12px; color: var(--muted); font-weight: 750; }
     .track { height: 12px; overflow: hidden; border-radius: 99px; background: #edf3fb; }
     .fill { display: block; width: var(--w); height: 100%; border-radius: inherit; background: linear-gradient(90deg, var(--blue), var(--green)); }
 
-    .page-cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
-    .page-card { display: flex; flex-direction: column; min-height: 255px; padding: 24px; border: 1px solid var(--line); border-radius: 30px; background: var(--panel); box-shadow: var(--shadow); text-decoration: none; color: var(--ink); transition: 0.18s ease; }
-    .page-card:hover { transform: translateY(-5px); border-color: rgba(36,107,254,.26); }
+    .section { scroll-margin-top: 110px; padding: 28px 0; }
+    .section-head { display: flex; align-items: end; justify-content: space-between; gap: 22px; margin-bottom: 18px; }
+    .section-head p { max-width: 560px; }
+    .section-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
+    .section-card { padding: 24px; min-height: 230px; }
     .icon { width: 46px; height: 46px; display: grid; place-items: center; border-radius: 16px; color: white; font-weight: 950; background: linear-gradient(135deg, var(--blue), var(--cyan)); margin-bottom: 18px; }
-    .page-card span { margin-top: auto; color: var(--blue); font-weight: 900; }
+
+    .feedback-panel { display: grid; grid-template-columns: 0.95fr 1.05fr; gap: 18px; }
+    .panel { padding: 24px; }
+    .steps { display: grid; gap: 14px; }
+    .step { padding: 16px; border: 1px solid var(--line); border-radius: 20px; background: #fff; }
+
+    .stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-bottom: 16px; }
+    .stat-card { padding: 22px; }
+    .stat-card b { display: block; font-size: 2.15rem; letter-spacing: -0.06em; }
+    .overview-grid { display: grid; grid-template-columns: 1.1fr 0.9fr; gap: 18px; }
+    .pills { display: flex; flex-wrap: wrap; gap: 10px; }
+    .pill { border: 1px solid var(--line); border-radius: 999px; padding: 10px 14px; background: #fff; font-weight: 850; }
+
+    .login-grid { display: grid; grid-template-columns: 0.82fr 1.18fr; gap: 18px; }
+    label { display: block; margin-top: 14px; font-weight: 850; }
+    select, input { width: 100%; margin-top: 8px; border: 1px solid var(--line); border-radius: 16px; padding: 13px 14px; color: var(--ink); background: #fff; outline: 0; }
+    .tabs { display: flex; flex-wrap: wrap; gap: 8px; margin: 18px 0; }
+    .access-row { display: flex; justify-content: space-between; gap: 12px; margin-top: 10px; padding: 15px; border: 1px solid var(--line); border-radius: 18px; color: var(--muted); background: #fff; }
+    .access-row b { color: var(--ink); }
+
     .note { margin-top: 24px; padding: 18px 20px; border: 1px dashed rgba(36, 107, 254, 0.22); border-radius: 22px; background: rgba(255,255,255,.66); color: var(--muted); }
 
-    @media (max-width: 860px) {
+    @media (max-width: 900px) {
       .nav { align-items: flex-start; flex-direction: column; }
-      .hero, .page-cards { grid-template-columns: 1fr; }
+      .hero, .section-grid, .feedback-panel, .overview-grid, .login-grid, .stats { grid-template-columns: 1fr; }
       .hero { min-height: auto; padding-top: 40px; }
+      .section-head { align-items: flex-start; flex-direction: column; }
     }
   </style>
 </head>
@@ -92,15 +122,15 @@
   <main class="shell">
     <nav class="nav" aria-label="Main navigation">
       <div class="brand"><div class="logo">PP</div><div>PathPride<small>Council points system</small></div></div>
-      <div class="links"><a href="feedback.html">Feedback</a><a href="overview.html">Overview</a><a href="login.html">Login</a></div>
+      <div class="links"><a href="#feedback">Feedback</a><a href="#overview">Overview</a><a href="#login">Login</a></div>
     </nav>
 
-    <section class="hero">
+    <section class="hero" id="home">
       <div>
         <div class="eyebrow">IvaanSingh.com/sc • council leadership</div>
         <h1>Clean student council points with leadership-level control.</h1>
-        <p>PathPride is organized as three focused pages that feel like sections of one app: feedback routing, point overview, and teacher/council login. There is no normal student login.</p>
-        <div class="actions"><a class="button primary" href="overview.html">View Overview</a><a class="button" href="feedback.html">Open Feedback</a></div>
+        <p>PathPride is now one single page inside the <b>main-page</b> folder. Feedback, overview, and login appear as different sections that feel like separate pages without needing separate HTML files.</p>
+        <div class="actions"><a class="button primary" href="#overview">View Overview</a><a class="button" href="#feedback">Open Feedback</a></div>
       </div>
       <aside class="preview" aria-label="Points preview">
         <div class="screen">
@@ -115,13 +145,68 @@
       </aside>
     </section>
 
-    <section class="page-cards" aria-label="Portal sections">
-      <a class="page-card" href="feedback.html"><div class="icon">1</div><h2>Feedback</h2><p>Lead users to a Microsoft Forms placeholder until the final school form is ready.</p><span>Open page →</span></a>
-      <a class="page-card" href="overview.html"><div class="icon">2</div><h2>Overview</h2><p>Show all sections, weeks, point types, current week, previous week, and analysis modes.</p><span>Open page →</span></a>
-      <a class="page-card" href="login.html"><div class="icon">3</div><h2>Login</h2><p>Teacher and council-member access only, with edit/view permissions based on role.</p><span>Open page →</span></a>
+    <section class="section" aria-label="Portal sections overview">
+      <div class="section-grid">
+        <a class="section-card" href="#feedback"><div class="icon">1</div><h2>Feedback</h2><p>Microsoft Forms placeholder and feedback workflow.</p></a>
+        <a class="section-card" href="#overview"><div class="icon">2</div><h2>Overview</h2><p>All sections, weeks, point types, and analysis views.</p></a>
+        <a class="section-card" href="#login"><div class="icon">3</div><h2>Login</h2><p>Teacher and council-member access only.</p></a>
+      </div>
+    </section>
+
+    <section class="section" id="feedback">
+      <div class="section-head">
+        <div><div class="eyebrow">Feedback section</div><h2>Ready for Microsoft Forms.</h2></div>
+        <p>This leads to Microsoft Forms without locking the project to a specific form. Replace the placeholder once the official form is ready.</p>
+      </div>
+      <div class="feedback-panel">
+        <div class="panel"><h3>Microsoft Forms placeholder</h3><p>Use the button for now; the final form URL can be added later.</p><a class="button primary" href="https://forms.office.com/" target="_blank" rel="noopener">Open Microsoft Forms</a></div>
+        <div class="panel steps"><div class="step"><b>1. Collect</b><p>Students or staff submit feedback through the future Microsoft Form.</p></div><div class="step"><b>2. Organize</b><p>Responses are prepared for Excel-style tracking and quick council review.</p></div><div class="step"><b>3. Analyze</b><p>Leadership checks trends by section, week, and point type.</p></div></div>
+      </div>
+    </section>
+
+    <section class="section" id="overview">
+      <div class="section-head">
+        <div><div class="eyebrow">Overview section</div><h2>All points in one dashboard.</h2></div>
+        <p>Compare current week, previous week, all sections, all weeks, point type, and in-depth analysis without leaving this single file.</p>
+      </div>
+      <div class="stats"><div class="stat-card"><p>Current week</p><b>349</b></div><div class="stat-card"><p>Previous week</p><b>326</b></div><div class="stat-card"><p>Reviewed</p><b>97%</b></div><div class="stat-card"><p>Open notes</p><b>12</b></div></div>
+      <div class="overview-grid">
+        <div class="panel"><h3>Section performance</h3><div class="score-row"><span>Service</span><span class="track"><span class="fill" style="--w:94%"></span></span><b>94</b></div><div class="score-row"><span>Spirit</span><span class="track"><span class="fill" style="--w:88%"></span></span><b>88</b></div><div class="score-row"><span>Events</span><span class="track"><span class="fill" style="--w:81%"></span></span><b>81</b></div></div>
+        <div class="panel"><h3>Analysis types</h3><div class="pills"><span class="pill">All sections</span><span class="pill">All weeks</span><span class="pill">Current week</span><span class="pill">Previous week</span><span class="pill">Point type</span><span class="pill">In-depth analysis</span></div></div>
+      </div>
+    </section>
+
+    <section class="section" id="login">
+      <div class="section-head">
+        <div><div class="eyebrow">Login section</div><h2>Teacher and council access only.</h2></div>
+        <p>There is no normal student login. Teachers can edit, while council members can view the dashboard and analysis.</p>
+      </div>
+      <div class="login-grid">
+        <div class="panel"><h3>Identify position</h3><label for="role">Role</label><select id="role" onchange="updateRole()"><option>President</option><option>Teacher</option><option>Council Member</option></select><label for="name">Name</label><input id="name" value="Ivaan Singh" /><div class="tabs"><button class="active" onclick="setWeek('Current week')">Current week</button><button onclick="setWeek('Previous week')">Previous week</button><button onclick="setWeek('All weeks')">All weeks</button></div><p id="permission">President access: view everything, review council notes, and prepare final leadership analysis.</p></div>
+        <div class="panel"><h3 id="title">Current week dashboard</h3><div class="tabs"><button>All sections</button><button>Point type</button><button>In-depth analysis</button><button>Feedback notes</button></div><div class="access-row"><span>Access mode</span><b id="access">Leadership</b></div><div class="access-row"><span>Editing access</span><b id="editing">Enabled</b></div><div class="access-row"><span>Current-week flags</span><b>7</b></div><div class="access-row"><span>Previous-week change</span><b>+23</b></div></div>
+      </div>
     </section>
 
     <div class="note">Recommended repo/domain: <b>ivaansingh/pathpride-council</b>, published at <b>ivaansingh.com/pathpride</b>.</div>
   </main>
+
+  <script>
+    function setWeek(label) {
+      document.getElementById('title').textContent = label + ' dashboard';
+    }
+
+    function updateRole() {
+      const role = document.getElementById('role').value;
+      const permissions = {
+        President: 'President access: view everything, review council notes, and prepare final leadership analysis.',
+        Teacher: 'Teacher access: edit points, update categories, and open in-depth section reports.',
+        'Council Member': 'Council member access: view-only analysis for all sections, all weeks, and point types.'
+      };
+
+      document.getElementById('permission').textContent = permissions[role];
+      document.getElementById('access').textContent = role === 'Council Member' ? 'View only' : role;
+      document.getElementById('editing').textContent = role === 'Council Member' ? 'View only' : 'Enabled';
+    }
+  </script>
 </body>
 </html>
