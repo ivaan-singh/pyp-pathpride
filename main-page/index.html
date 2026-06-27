@@ -101,6 +101,14 @@
     .pills { display: flex; flex-wrap: wrap; gap: 10px; }
     .pill { border: 1px solid var(--line); border-radius: 999px; padding: 10px 14px; background: #fff; font-weight: 850; }
 
+    .login-grid { display: grid; grid-template-columns: minmax(280px, 560px); justify-content: center; gap: 18px; }
+    .login-card { width: 100%; max-width: 560px; padding: 30px; }
+    .login-card h3 { margin-top: 0; font-size: 1.55rem; letter-spacing: -0.04em; }
+    .login-card .helper { margin: 4px 0 18px; }
+    label { display: block; margin-top: 14px; font-weight: 850; }
+    select, input { width: 100%; margin-top: 8px; border: 1px solid var(--line); border-radius: 16px; padding: 13px 14px; color: var(--ink); background: #fff; outline: 0; }
+    .tabs { display: flex; flex-wrap: wrap; gap: 8px; margin: 18px 0; }
+    .login-button { width: 100%; justify-content: center; margin-top: 18px; color: white; border: 0; background: linear-gradient(135deg, var(--blue), var(--cyan)); font-size: 1rem; }
     .login-grid { display: grid; grid-template-columns: minmax(280px, 520px); gap: 18px; }
     .login-card { max-width: 520px; }
     .login-grid { display: grid; grid-template-columns: 0.82fr 1.18fr; gap: 18px; }
@@ -113,9 +121,11 @@
     .dashboard-page { padding: 28px; }
     .dashboard-hero { display: flex; align-items: flex-start; justify-content: space-between; gap: 18px; margin-bottom: 20px; }
     .status-badge { border: 1px solid rgba(36, 107, 254, 0.18); border-radius: 999px; padding: 10px 14px; color: var(--blue); background: rgba(36, 107, 254, 0.08); font-weight: 900; white-space: nowrap; }
+
     .logged-out-note { margin-top: 14px; }
     .logged-in { display: none; }
     .logged-in.active { display: block; }
+
     .dashboard-stack { display: grid; gap: 14px; }
     .filter-block { padding: 16px; border: 1px solid var(--line); border-radius: 20px; background: #fff; }
     .filter-label { display: block; margin-bottom: 10px; color: var(--muted); font-size: 0.82rem; font-weight: 950; letter-spacing: 0.12em; text-transform: uppercase; }
@@ -197,6 +207,13 @@
       </div>
       <div class="login-grid" id="loginForm">
         <div class="panel login-card">
+          <h3>Identify position</h3>
+          <p class="helper">Choose your staff or council role. Every login is valid for now.</p>
+          <label for="role">Role</label>
+          <select id="role"><option>Council President</option><option>Teacher</option><option>Council Member</option></select>
+          <label for="name">Name</label>
+          <input id="name" value="Ivaan Singh" autocomplete="name" />
+          <button class="login-button" id="loginButton" type="button">Log in</button>
       <div class="login-grid">
         <div class="panel">
           <h3>Identify position</h3>
@@ -216,6 +233,11 @@
           </div>
           <span class="status-badge" id="access">Logged in</span>
         </div>
+        <div class="dashboard-stack">
+          <div class="filter-block"><span class="filter-label">Top: all sections</span><div class="tabs"><button type="button" class="active" data-view="All sections">All sections</button><button type="button" data-view="Service">Service</button><button type="button" data-view="Spirit">Spirit</button><button type="button" data-view="Events">Events</button><button type="button" data-view="Conduct">Conduct</button></div></div>
+          <div class="filter-block"><span class="filter-label">Underneath: all weeks</span><div class="tabs"><button type="button" class="active" data-view="All weeks">All weeks</button><button type="button" data-view="Week 1">Week 1</button><button type="button" data-view="Week 2">Week 2</button><button type="button" data-view="Week 3">Week 3</button><button type="button" data-view="Week 4">Week 4</button></div></div>
+          <div class="filter-block"><span class="filter-label">Current and previous options</span><div class="tabs"><button type="button" class="active" data-view="Current week">Current week</button><button type="button" data-view="Previous week">Previous week</button></div></div>
+          <div class="filter-block"><span class="filter-label">Then: all analysis types</span><div class="tabs"><button type="button" data-view="Overview">Overview</button><button type="button" data-view="In-depth analysis">In-depth analysis</button><button type="button" data-view="Point type">Point type</button><button type="button" data-view="Feedback notes">Feedback notes</button><button type="button" data-view="Section trends">Section trends</button></div></div>
         <div class="stats">
           <div class="stat-card"><p>Active sections</p><b>4</b></div>
           <div class="stat-card"><p>Weeks visible</p><b>All</b></div>
@@ -257,6 +279,16 @@
   </main>
 
   <script>
+    function setView(label) {
+      document.getElementById('analysisCopy').textContent = 'Selected view: ' + label + '. Review performance by role, section, week, and point type.';
+    }
+
+    function loginUser() {
+      const loggedInPanel = document.getElementById('loggedInPanel');
+      document.getElementById('loginForm').hidden = true;
+      loggedInPanel.classList.add('active');
+      updateRole();
+      loggedInPanel.scrollIntoView({ behavior: 'smooth', block: 'start' });
     function setWeek(label) {
       document.getElementById('title').textContent = label + ' dashboard';
     }
@@ -272,6 +304,8 @@
     function updateRole() {
       const role = document.getElementById('role').value;
       const name = document.getElementById('name').value || 'User';
+      const canEdit = role == 'Teacher' || role == 'Council President';
+      const pointType = role == 'Teacher' ? 'Teacher-managed point types' : role == 'Council Member' ? 'Council-view point types' : 'All point types';
       const canEdit = role === 'Teacher' || role === 'Council President';
       const pointType = role === 'Teacher' ? 'Teacher-managed point types' : role === 'Council Member' ? 'Council-view point types' : 'All point types';
       const permissions = {
@@ -286,6 +320,15 @@
       document.getElementById('pointType').textContent = pointType;
       document.getElementById('editing').textContent = canEdit ? 'Enabled' : 'View only';
       document.getElementById('access').textContent = canEdit ? 'Can edit' : 'Can view';
+    }
+
+    document.getElementById('loginButton').addEventListener('click', loginUser);
+    document.getElementById('role').addEventListener('change', updateRole);
+    document.querySelectorAll('[data-view]').forEach((button) => {
+      button.addEventListener('click', () => setView(button.dataset.view));
+    });
+
+
     function updateRole() {
       const role = document.getElementById('role').value;
       const permissions = {
