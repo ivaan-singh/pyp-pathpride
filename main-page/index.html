@@ -103,17 +103,31 @@
 
     .login-grid { display: grid; grid-template-columns: 1fr; gap: 18px; }
     .login-card { width: 100%; padding: 30px; }
+    .login-grid { display: grid; grid-template-columns: minmax(280px, 560px); justify-content: center; gap: 18px; }
+    .login-card { width: 100%; max-width: 560px; padding: 30px; }
     .login-card h3 { margin-top: 0; font-size: 1.55rem; letter-spacing: -0.04em; }
     .login-card .helper { margin: 4px 0 18px; }
     label { display: block; margin-top: 14px; font-weight: 850; }
     select, input { width: 100%; margin-top: 8px; border: 1px solid var(--line); border-radius: 16px; padding: 13px 14px; color: var(--ink); background: #fff; outline: 0; }
     .tabs { display: flex; flex-wrap: wrap; gap: 8px; margin: 18px 0; }
     .login-button { width: 100%; justify-content: center; margin-top: 18px; color: white; border: 0; background: linear-gradient(135deg, var(--blue), var(--cyan)); font-size: 1rem; }
+    .login-grid { display: grid; grid-template-columns: minmax(280px, 520px); gap: 18px; }
+    .login-card { max-width: 520px; }
+    .login-grid { display: grid; grid-template-columns: 0.82fr 1.18fr; gap: 18px; }
+    label { display: block; margin-top: 14px; font-weight: 850; }
+    select, input { width: 100%; margin-top: 8px; border: 1px solid var(--line); border-radius: 16px; padding: 13px 14px; color: var(--ink); background: #fff; outline: 0; }
+    .tabs { display: flex; flex-wrap: wrap; gap: 8px; margin: 18px 0; }
+    .login-button { width: 100%; justify-content: center; margin-top: 18px; color: white; border: 0; background: linear-gradient(135deg, var(--blue), var(--cyan)); }
     .logged-in { display: none; margin-top: 22px; }
     .logged-in.active { display: block; }
     .dashboard-page { padding: 28px; }
     .dashboard-hero { display: flex; align-items: flex-start; justify-content: space-between; gap: 18px; margin-bottom: 20px; }
     .status-badge { border: 1px solid rgba(36, 107, 254, 0.18); border-radius: 999px; padding: 10px 14px; color: var(--blue); background: rgba(36, 107, 254, 0.08); font-weight: 900; white-space: nowrap; }
+
+    .logged-out-note { margin-top: 14px; }
+    .logged-in { display: none; }
+    .logged-in.active { display: block; }
+
     .dashboard-stack { display: grid; gap: 14px; }
     .filter-block { padding: 16px; border: 1px solid var(--line); border-radius: 20px; background: #fff; }
     .filter-label { display: block; margin-bottom: 10px; color: var(--muted); font-size: 0.82rem; font-weight: 950; letter-spacing: 0.12em; text-transform: uppercase; }
@@ -169,6 +183,7 @@
     .bar { height: 12px; border-radius: 99px; background: #e8f0fb; overflow: hidden; }
     .bar span { display: block; height: 100%; width: var(--w); border-radius: inherit; background: linear-gradient(90deg, var(--blue), var(--green)); }
     @media (max-width: 760px) { .backpack { left: 2%; transform: scale(.72) rotateX(58deg) rotateZ(-16deg); } .book { width: 145px; height: 198px; } .digital-grid { grid-template-columns: 1fr; } .choose-copy { left: 24px; right: auto; top: 18%; } }
+    .note { margin-top: 24px; padding: 18px 20px; border: 1px dashed rgba(36, 107, 254, 0.22); border-radius: 22px; background: rgba(255,255,255,.66); color: var(--muted); }
 
     @media (max-width: 900px) {
       .nav { align-items: flex-start; flex-direction: column; }
@@ -205,6 +220,14 @@
       </aside>
     </section>
 
+    <section class="section" aria-label="Portal sections overview">
+      <div class="section-grid">
+        <a class="section-card" href="#feedback"><div class="icon">1</div><h2>Feedback</h2><p>Microsoft Forms placeholder and feedback workflow.</p></a>
+        <a class="section-card" href="#overview"><div class="icon">2</div><h2>Overview</h2><p>All sections, weeks, point types, and analysis views.</p></a>
+        <a class="section-card" href="#login"><div class="icon">3</div><h2>Login</h2><p>Teacher and council-member access only.</p></a>
+      </div>
+    </section>
+    
     <section class="section" id="feedback">
       <div class="section-head">
         <div><div class="eyebrow">Feedback section</div><h2>Ready for Microsoft Forms.</h2></div>
@@ -242,6 +265,14 @@
           <label for="name">Name</label>
           <input id="name" value="Ivaan Singh" autocomplete="name" />
           <button class="login-button" id="loginButton" type="button">Log in</button>
+      <div class="login-grid">
+        <div class="panel">
+          <h3>Identify position</h3>
+          <label for="role">Role</label>
+          <select id="role" onchange="updateRole()"><option>Council President</option><option>Teacher</option><option>Council Member</option></select>
+          <label for="name">Name</label>
+          <input id="name" value="Ivaan Singh" />
+          <button class="login-button" onclick="loginUser()">Log in</button>
         </div>
       </div>
       <div class="panel logged-in dashboard-page" id="loggedInPanel">
@@ -258,6 +289,17 @@
           <div class="filter-block"><span class="filter-label">Underneath: all weeks</span><div class="tabs"><button type="button" class="active" data-view="All weeks">All weeks</button><button type="button" data-view="Week 1">Week 1</button><button type="button" data-view="Week 2">Week 2</button><button type="button" data-view="Week 3">Week 3</button><button type="button" data-view="Week 4">Week 4</button></div></div>
           <div class="filter-block"><span class="filter-label">Current and previous options</span><div class="tabs"><button type="button" class="active" data-view="Current week">Current week</button><button type="button" data-view="Previous week">Previous week</button></div></div>
           <div class="filter-block"><span class="filter-label">Then: all analysis types</span><div class="tabs"><button type="button" data-view="Overview">Overview</button><button type="button" data-view="In-depth analysis">In-depth analysis</button><button type="button" data-view="Point type">Point type</button><button type="button" data-view="Feedback notes">Feedback notes</button><button type="button" data-view="Section trends">Section trends</button></div></div>
+        <div class="stats">
+          <div class="stat-card"><p>Active sections</p><b>4</b></div>
+          <div class="stat-card"><p>Weeks visible</p><b>All</b></div>
+          <div class="stat-card"><p>Current week</p><b>349</b></div>
+          <div class="stat-card"><p>Previous week</p><b>326</b></div>
+        </div>
+        <div class="dashboard-stack">
+          <div class="filter-block"><span class="filter-label">Top: all sections</span><div class="tabs"><button class="active">All sections</button><button>Service</button><button>Spirit</button><button>Events</button><button>Conduct</button></div></div>
+          <div class="filter-block"><span class="filter-label">Underneath: all weeks</span><div class="tabs"><button class="active" onclick="setWeek('All weeks')">All weeks</button><button onclick="setWeek('Week 1')">Week 1</button><button onclick="setWeek('Week 2')">Week 2</button><button onclick="setWeek('Week 3')">Week 3</button><button onclick="setWeek('Week 4')">Week 4</button></div></div>
+          <div class="filter-block"><span class="filter-label">Current week and previous option</span><div class="tabs"><button class="active" onclick="setWeek('Current week')">Current week</button><button onclick="setWeek('Previous week')">Previous week</button></div></div>
+          <div class="filter-block"><span class="filter-label">Then: all analysis types</span><div class="tabs"><button>Overview</button><button>In-depth analysis</button><button>Point type</button><button>Feedback notes</button><button>Section trends</button></div></div>
         </div>
         <div class="overview-grid" style="margin-top: 18px;">
           <div class="panel" style="box-shadow: none;"><h3>Role permissions</h3><div class="access-row"><span>Identified as</span><b id="identified">Council President</b></div><div class="access-row"><span>Point type access</span><b id="pointType">All point types</b></div><div class="access-row"><span>Editing access</span><b id="editing">Enabled</b></div></div>
@@ -289,6 +331,29 @@
     </div>
   </div>
   <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+          <p class="logged-out-note" id="permission">Every login is valid for now. Choose your role, press Log in, and the dashboard will identify your access level.</p>
+        </div>
+        <div class="panel logged-in" id="loggedInPanel">
+          <h3 id="title">Logged-in dashboard</h3>
+          <p id="welcome">Log in to load your teacher/council dashboard.</p>
+          <div class="dashboard-stack">
+            <div class="filter-block"><span class="filter-label">Top: all sections</span><div class="tabs"><button class="active">All sections</button><button>Service</button><button>Spirit</button><button>Events</button><button>Conduct</button></div></div>
+            <div class="filter-block"><span class="filter-label">Underneath: all weeks</span><div class="tabs"><button class="active" onclick="setWeek('All weeks')">All weeks</button><button onclick="setWeek('Week 1')">Week 1</button><button onclick="setWeek('Week 2')">Week 2</button><button onclick="setWeek('Week 3')">Week 3</button></div></div>
+            <div class="filter-block"><span class="filter-label">Current and previous option</span><div class="tabs"><button class="active" onclick="setWeek('Current week')">Current week</button><button onclick="setWeek('Previous week')">Previous week</button></div></div>
+            <div class="filter-block"><span class="filter-label">Then: all analysis types</span><div class="tabs"><button>Overview</button><button>In-depth analysis</button><button>Point type</button><button>Feedback notes</button></div></div>
+          </div>
+          <div class="access-row"><span>Identified as</span><b id="identified">Council President</b></div>
+          <div class="access-row"><span>Point type access</span><b id="pointType">All point types</b></div>
+          <div class="access-row"><span>Editing access</span><b id="editing">Enabled</b></div>
+          <div class="access-row"><span>Dashboard status</span><b id="access">Logged in</b></div>
+        </div>
+        <div class="panel"><h3>Identify position</h3><label for="role">Role</label><select id="role" onchange="updateRole()"><option>President</option><option>Teacher</option><option>Council Member</option></select><label for="name">Name</label><input id="name" value="Ivaan Singh" /><div class="tabs"><button class="active" onclick="setWeek('Current week')">Current week</button><button onclick="setWeek('Previous week')">Previous week</button><button onclick="setWeek('All weeks')">All weeks</button></div><p id="permission">President access: view everything, review council notes, and prepare final leadership analysis.</p></div>
+        <div class="panel"><h3 id="title">Current week dashboard</h3><div class="tabs"><button>All sections</button><button>Point type</button><button>In-depth analysis</button><button>Feedback notes</button></div><div class="access-row"><span>Access mode</span><b id="access">Leadership</b></div><div class="access-row"><span>Editing access</span><b id="editing">Enabled</b></div><div class="access-row"><span>Current-week flags</span><b>7</b></div><div class="access-row"><span>Previous-week change</span><b>+23</b></div></div>
+      </div>
+    </section>
+
+    <div class="note">Recommended repo/domain: <b>ivaansingh/pathpride-council</b>, published at <b>ivaansingh.com/pathpride</b>.</div>
+  </main>
 
   <script>
     function setView(label) {
@@ -306,6 +371,16 @@
       loggedInPanel.classList.add('active');
       updateRole();
       loggedInPanel.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    function setWeek(label) {
+      document.getElementById('title').textContent = label + ' dashboard';
+    }
+
+    function loginUser() {
+      document.getElementById('loggedInPanel').classList.add('active');
+      document.getElementById('loginForm').style.display = 'none';
+      updateRole();
+      document.getElementById('loggedInPanel').scrollIntoView({ behavior: 'smooth', block: 'start' });
+      updateRole();
     }
 
     function updateRole() {
@@ -313,6 +388,15 @@
       const name = document.getElementById('name').value || 'User';
       const canEdit = role == 'Teacher' || role == 'Council President';
       const pointType = role == 'Teacher' ? 'Teacher-managed point types' : role == 'Council Member' ? 'Council-view point types' : 'All point types';
+      const canEdit = role === 'Teacher' || role === 'Council President';
+      const pointType = role === 'Teacher' ? 'Teacher-managed point types' : role === 'Council Member' ? 'Council-view point types' : 'All point types';
+      const permissions = {
+        'Council President': 'Council president access: full overview, in-depth analysis, all sections, all weeks, and leadership notes.',
+        Teacher: 'Teacher access: edit points, update point types, and open in-depth section reports.',
+        'Council Member': 'Council member access: view-only overview, point type analysis, all sections, and all weeks.'
+      };
+
+      document.getElementById('permission').textContent = permissions[role];
       document.getElementById('welcome').textContent = name + ' is logged in as ' + role + '.';
       document.getElementById('identified').textContent = role;
       document.getElementById('pointType').textContent = pointType;
@@ -421,6 +505,197 @@
       button.addEventListener('click', () => setView(button.dataset.view));
     });
 
+    document.getElementById('loginButton').addEventListener('click', loginUser);
+    document.getElementById('role').addEventListener('change', updateRole);
+    document.querySelectorAll('[data-view]').forEach((button) => {
+      button.addEventListener('click', () => setView(button.dataset.view));
+    });
+
+
+    function updateRole() {
+      const role = document.getElementById('role').value;
+      const permissions = {
+        President: 'President access: view everything, review council notes, and prepare final leadership analysis.',
+        Teacher: 'Teacher access: edit points, update categories, and open in-depth section reports.',
+        'Council Member': 'Council member access: view-only analysis for all sections, all weeks, and point types.'
+      };
+
+      document.getElementById('permission').textContent = permissions[role];
+      document.getElementById('access').textContent = role === 'Council Member' ? 'View only' : role;
+      document.getElementById('editing').textContent = role === 'Council Member' ? 'View only' : 'Enabled';
+    :root { --bg:#05070d; --panel:#0b1220; --line:rgba(148,163,184,.22); --text:#f8fafc; --muted:#9aa8bd; --cyan:#22d3ee; --blue:#2563eb; --lime:#a3e635; --white:rgba(255,255,255,.08); }
+    * { box-sizing:border-box; }
+    body { margin:0; min-height:100vh; font-family:Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; color:var(--text); background:radial-gradient(circle at 18% -8%, rgba(34,211,238,.28), transparent 28%), radial-gradient(circle at 90% 12%, rgba(37,99,235,.22), transparent 30%), linear-gradient(135deg, #05070d, #08111f 48%, #101827); }
+    body:before { content:""; position:fixed; inset:0; pointer-events:none; background-image:linear-gradient(rgba(255,255,255,.035) 1px, transparent 1px),linear-gradient(90deg, rgba(255,255,255,.035) 1px, transparent 1px); background-size:46px 46px; mask-image:linear-gradient(to bottom, black, transparent 75%); }
+    .wrap { width:min(1160px, calc(100% - 36px)); margin:auto; padding:28px 0 54px; position:relative; }
+    nav { display:flex; align-items:center; justify-content:space-between; gap:18px; padding:14px; border:1px solid var(--line); border-radius:28px; background:rgba(5,10,20,.72); backdrop-filter:blur(20px); position:sticky; top:14px; z-index:10; box-shadow:0 22px 70px rgba(0,0,0,.26); }
+    .brand { display:flex; align-items:center; gap:12px; font-weight:900; letter-spacing:-.04em; }
+    .mark { width:44px; height:44px; border-radius:16px; display:grid; place-items:center; color:#03111f; background:linear-gradient(135deg,var(--cyan),var(--lime)); box-shadow:0 14px 36px rgba(34,211,238,.22); }
+    .navlinks { display:flex; gap:8px; flex-wrap:wrap; }
+    a, button { color:var(--text); }
+    .navlinks a, .btn { text-decoration:none; border:1px solid rgba(255,255,255,.14); background:var(--white); padding:10px 14px; border-radius:999px; font-weight:800; cursor:pointer; transition:.18s ease; }
+    .navlinks a:hover, .btn:hover { transform:translateY(-2px); border-color:rgba(34,211,238,.65); background:rgba(34,211,238,.12); }
+    .btn.primary { border:0; color:#03111f; background:linear-gradient(135deg,var(--cyan),var(--lime)); }
+    .hero { min-height:74vh; display:grid; grid-template-columns:1.05fr .95fr; gap:34px; align-items:center; padding:54px 0 28px; }
+    .eyebrow { color:var(--cyan); font-size:.78rem; font-weight:950; text-transform:uppercase; letter-spacing:.18em; }
+    h1 { margin:12px 0; font-size:clamp(2.7rem, 7vw, 6.5rem); line-height:.9; letter-spacing:-.085em; }
+    h2 { margin:0 0 10px; font-size:clamp(1.5rem,3vw,2.35rem); letter-spacing:-.055em; }
+    p { color:var(--muted); line-height:1.72; }
+    .grad { background:linear-gradient(90deg,#fff,var(--cyan),var(--lime)); -webkit-background-clip:text; color:transparent; }
+    .actions { display:flex; gap:12px; flex-wrap:wrap; margin-top:26px; }
+    .device { border:1px solid var(--line); background:linear-gradient(180deg, rgba(255,255,255,.12), rgba(255,255,255,.04)); border-radius:34px; padding:16px; box-shadow:0 30px 90px rgba(0,0,0,.32); }
+    .screen { border:1px solid rgba(255,255,255,.14); border-radius:24px; overflow:hidden; background:#07111f; }
+    .screenbar { display:flex; gap:7px; padding:13px; background:rgba(255,255,255,.06); }
+    .dot { width:11px; height:11px; border-radius:50%; background:#fb7185; } .dot:nth-child(2){background:#fbbf24}.dot:nth-child(3){background:#34d399}
+    .mini { padding:20px; display:grid; gap:12px; }
+    .metric { display:grid; grid-template-columns:85px 1fr 42px; gap:12px; align-items:center; font-size:.9rem; color:var(--muted); }
+    .track { height:11px; border-radius:99px; background:rgba(255,255,255,.09); overflow:hidden; }
+    .fill { height:100%; width:var(--w); background:linear-gradient(90deg,var(--cyan),var(--lime)); border-radius:inherit; }
+    .cards { display:grid; grid-template-columns:repeat(3,1fr); gap:18px; }
+    .card { border:1px solid var(--line); background:rgba(255,255,255,.075); border-radius:28px; padding:24px; min-height:250px; text-decoration:none; box-shadow:0 22px 70px rgba(0,0,0,.2); transition:.2s ease; }
+    .card:hover { transform:translateY(-5px); border-color:rgba(34,211,238,.55); }
+    .num { width:46px; height:46px; border-radius:15px; display:grid; place-items:center; font-weight:950; color:#03111f; background:linear-gradient(135deg,var(--cyan),var(--lime)); margin-bottom:18px; }
+    .footerline { margin-top:30px; padding:18px; border:1px dashed rgba(255,255,255,.2); border-radius:20px; color:var(--muted); background:rgba(255,255,255,.045); }
+    @media (max-width:860px){ nav,.hero{grid-template-columns:1fr; flex-direction:column; align-items:flex-start}.cards{grid-template-columns:1fr} }
+  </style>
+</head>
+<body>
+  <main class="wrap">
+    <nav>
+      <div class="brand"><div class="mark">PP</div><div>PathPride<br><span style="color:var(--muted);font-weight:750;letter-spacing:0">Council system</span></div></div>
+      <div class="navlinks"><a href="feedback.html">Feedback</a><a href="overview.html">Overview</a><a href="login.html">Teacher/Council Login</a></div>
+  <title>PathPride Council Dashboard</title>
+  <style>
+    :root { --bg: #07111f; --card: rgba(255,255,255,.1); --line: rgba(255,255,255,.18); --text: #f8fafc; --muted: #a7b6cf; --blue: #38bdf8; --violet: #a78bfa; --green: #34d399; --amber: #fbbf24; }
+    * { box-sizing: border-box; }
+    body { margin: 0; min-height: 100vh; font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; color: var(--text); background: radial-gradient(circle at 15% 10%, rgba(56,189,248,.34), transparent 28%), radial-gradient(circle at 85% 0%, rgba(167,139,250,.32), transparent 26%), linear-gradient(135deg, #050816, var(--bg) 55%, #101827); overflow-x: hidden; }
+    body::before { content: ""; position: fixed; inset: 0; pointer-events: none; background-image: linear-gradient(rgba(255,255,255,.035) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.035) 1px, transparent 1px); background-size: 42px 42px; mask-image: linear-gradient(to bottom, black, transparent); }
+    .wrap { width: min(1180px, calc(100% - 36px)); margin: 0 auto; padding: 32px 0 56px; }
+    nav, .hero, .card, .panel { border: 1px solid var(--line); background: var(--card); backdrop-filter: blur(22px); box-shadow: 0 24px 80px rgba(0,0,0,.28); }
+    nav { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 14px 16px; border-radius: 24px; position: sticky; top: 16px; z-index: 3; }
+    .brand { display: flex; align-items: center; gap: 12px; font-weight: 850; letter-spacing: -.03em; }
+    .logo { width: 42px; height: 42px; border-radius: 14px; display: grid; place-items: center; background: linear-gradient(135deg, var(--blue), var(--violet)); box-shadow: 0 12px 35px rgba(56,189,248,.28); }
+    .links { display: flex; flex-wrap: wrap; gap: 8px; }
+    .links a, button { border: 1px solid rgba(255,255,255,.16); color: var(--text); background: rgba(255,255,255,.08); padding: 10px 13px; border-radius: 999px; text-decoration: none; font-weight: 700; cursor: pointer; transition: .2s ease; }
+    .links a:hover, button:hover, button.active { transform: translateY(-2px); background: rgba(56,189,248,.18); border-color: rgba(125,211,252,.5); }
+    .hero { margin-top: 26px; border-radius: 34px; padding: clamp(28px, 5vw, 62px); display: grid; grid-template-columns: 1.1fr .9fr; gap: 32px; align-items: center; }
+    .eyebrow { color: var(--blue); font-weight: 900; text-transform: uppercase; letter-spacing: .16em; font-size: .78rem; }
+    h1 { margin: 12px 0; font-size: clamp(2.4rem, 7vw, 5.8rem); line-height: .92; letter-spacing: -.08em; }
+    .grad { background: linear-gradient(90deg, #fff, #7dd3fc, #c4b5fd); -webkit-background-clip: text; color: transparent; }
+    .lead { color: var(--muted); font-size: clamp(1rem, 2vw, 1.22rem); line-height: 1.75; max-width: 680px; }
+    .cta { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 26px; }
+    .primary { background: linear-gradient(135deg, var(--blue), var(--violet)); border: 0; color: #06101d; }
+    .mock { border-radius: 30px; padding: 18px; background: rgba(3,7,18,.48); border: 1px solid var(--line); transform: rotate(1deg); }
+    .screen { border-radius: 22px; overflow: hidden; border: 1px solid rgba(255,255,255,.14); background: #08111f; }
+    .bar { display: flex; gap: 7px; padding: 12px; background: rgba(255,255,255,.06); }
+    .dot { width: 11px; height: 11px; border-radius: 50%; background: var(--green); }
+    .dot:nth-child(2) { background: var(--amber); } .dot:nth-child(3) { background: #fb7185; }
+    .chart { padding: 20px; display: grid; gap: 12px; }
+    .row { display: grid; grid-template-columns: 70px 1fr 38px; gap: 10px; align-items: center; color: var(--muted); font-size: .86rem; }
+    .track { height: 10px; border-radius: 99px; background: rgba(255,255,255,.09); overflow: hidden; }
+    .fill { height: 100%; width: var(--w); border-radius: inherit; background: linear-gradient(90deg, var(--blue), var(--green)); }
+    .grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; margin-top: 18px; }
+    .card { border-radius: 26px; padding: 24px; min-height: 240px; }
+    .num { width: 46px; height: 46px; border-radius: 16px; display: grid; place-items: center; background: rgba(56,189,248,.16); color: #bae6fd; font-weight: 950; }
+    h2 { margin: 12px 0 8px; letter-spacing: -.04em; font-size: 1.45rem; }
+    .muted { color: var(--muted); line-height: 1.65; }
+    .dashboard { margin-top: 18px; display: grid; grid-template-columns: .78fr 1.22fr; gap: 18px; }
+    .panel { border-radius: 28px; padding: 22px; }
+    .tabs { display: flex; gap: 8px; flex-wrap: wrap; margin: 14px 0; }
+    .stat { display: flex; justify-content: space-between; gap: 12px; padding: 15px; margin-top: 10px; border-radius: 18px; background: rgba(255,255,255,.07); border: 1px solid rgba(255,255,255,.1); }
+    .section-title { margin-top: 34px; display: flex; justify-content: space-between; gap: 16px; align-items: end; }
+    input, select { width: 100%; border: 1px solid rgba(255,255,255,.14); background: rgba(3,7,18,.45); color: var(--text); border-radius: 16px; padding: 13px 14px; outline: none; margin-top: 10px; }
+    .hidden { display: none; }
+    @media (max-width: 860px) { .hero, .dashboard, .grid { grid-template-columns: 1fr; } nav { align-items: flex-start; flex-direction: column; } }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <nav>
+      <div class="brand"><div class="logo">PP</div><div>PathPride<br><span class="muted">Council portal</span></div></div>
+      <div class="links"><a href="#feedback">Feedback</a><a href="#overview">Overview</a><a href="#login">Log in</a></div>
+    </nav>
+
+    <section class="hero">
+      <div>
+        <div class="eyebrow">IvaanSingh.com/sc • president-grade dashboard</div>
+        <h1>Student council points, <span class="grad">built clean.</span></h1>
+        <p>Professional pages for feedback, full points overview, and secure role-based access for teachers and council members. No normal student login — this portal is for leadership workflows.</p>
+        <div class="actions"><a class="btn primary" href="login.html">Open dashboard</a><a class="btn" href="overview.html">View overview</a><a class="btn" href="feedback.html">Send feedback</a></div>
+      </div>
+      <aside class="device" aria-label="PathPride points preview">
+        <div class="screen"><div class="screenbar"><span class="dot"></span><span class="dot"></span><span class="dot"></span></div><div class="mini">
+          <div class="metric"><b>Service</b><span class="track"><span class="fill" style="--w:94%"></span></span><b>94</b></div>
+          <div class="metric"><b>Spirit</b><span class="track"><span class="fill" style="--w:86%"></span></span><b>86</b></div>
+          <div class="metric"><b>Events</b><span class="track"><span class="fill" style="--w:78%"></span></span><b>78</b></div>
+          <div class="metric"><b>Conduct</b><span class="track"><span class="fill" style="--w:91%"></span></span><b>91</b></div>
+        </div></div>
+      </aside>
+    </section>
+
+    <section class="cards" aria-label="Main portal pages">
+      <a class="card" href="feedback.html"><div class="num">1</div><h2>Feedback</h2><p>Opens a Microsoft Forms destination placeholder so the final school form can be connected later.</p></a>
+      <a class="card" href="overview.html"><div class="num">2</div><h2>Overview</h2><p>All sections, all weeks, current week, previous week, point type, and analysis types in one clean view.</p></a>
+      <a class="card" href="login.html"><div class="num">3</div><h2>Log in</h2><p>Teacher and council-member role detection only. Teachers can edit; council members can view.</p></a>
+    </section>
+
+    <div class="footerline">Recommended repo/domain name as council president: <b>ivaansingh/pathpride-council</b>, published at <b>ivaansingh.com/pathpride</b>.</div>
+  </main>
+        <div class="eyebrow">IvaanSingh.com/sc • student council points</div>
+        <h1>Clean points, feedback, and <span class="grad">weekly analysis.</span></h1>
+        <p class="lead">A polished hub for council members and teachers: Microsoft Forms feedback that can draft into Excel, full point overviews, role-aware login, and quick current-week versus previous-week analysis.</p>
+        <div class="cta"><button class="primary" onclick="scrollToId('login')">Open role dashboard</button><button onclick="scrollToId('overview')">See overview</button></div>
+      </div>
+      <div class="mock" aria-label="Dashboard preview">
+        <div class="screen"><div class="bar"><span class="dot"></span><span class="dot"></span><span class="dot"></span></div><div class="chart">
+          <div class="row"><b>Service</b><span class="track"><span class="fill" style="--w:92%"></span></span><b>92</b></div>
+          <div class="row"><b>Events</b><span class="track"><span class="fill" style="--w:81%"></span></span><b>81</b></div>
+          <div class="row"><b>Spirit</b><span class="track"><span class="fill" style="--w:74%"></span></span><b>74</b></div>
+          <div class="row"><b>Conduct</b><span class="track"><span class="fill" style="--w:88%"></span></span><b>88</b></div>
+        </div></div>
+      </div>
+    </section>
+
+    <div class="grid">
+      <article class="card" id="feedback"><div class="num">1</div><h2>Feedback</h2><p class="muted">Microsoft Forms-ready feedback flow that organizes responses and drafts them automatically into Excel-style trackers for quick review.</p></article>
+      <article class="card" id="overview"><div class="num">2</div><h2>Overview</h2><p class="muted">Full points overview across sections, weeks, current week, previous week, and point type so leaders can see what changed fast.</p></article>
+      <article class="card" id="login"><div class="num">3</div><h2>Log in</h2><p class="muted">Role-aware entry for teacher, council member, or student. Teachers can edit; council members can view; students see their relevant summary.</p></article>
+    </div>
+
+    <section class="section-title"><div><div class="eyebrow">role dashboard</div><h1 style="font-size:clamp(2rem,4vw,3.8rem)">Log in preview</h1></div><p class="muted">Repo/domain idea: <b>ivaansingh.com/pathpride</b> or <b>ivaansingh/pathpride-council</b>.</p></section>
+    <section class="dashboard">
+      <div class="panel">
+        <h2>Identify your position</h2>
+        <label class="muted" for="role">Choose role</label><select id="role" onchange="updateRole()"><option>President</option><option>Teacher</option><option>Council Member</option><option>Student</option></select>
+        <input id="name" value="Ivaan Singh" aria-label="Name" />
+        <div class="tabs"><button class="active" onclick="setWeek('Current week')">Current week</button><button onclick="setWeek('Previous week')">Previous week</button><button onclick="setWeek('All weeks')">All weeks</button></div>
+        <p class="muted" id="permission">President view: complete overview with leadership notes, point trends, and council-wide analysis.</p>
+      </div>
+      <div class="panel">
+        <h2 id="dashTitle">Current week analysis</h2>
+        <div class="tabs"><button>All sections</button><button>Point type</button><button>In-depth analysis</button><button>Feedback</button></div>
+        <div class="stat"><span>Positive feedback drafted</span><b>24</b></div>
+        <div class="stat"><span>Points needing review</span><b>7</b></div>
+        <div class="stat"><span>Top section</span><b>Service</b></div>
+        <div class="stat"><span id="editLabel">Editing access</span><b id="editValue">Enabled</b></div>
+      </div>
+    </section>
+  </div>
+
+  <script>
+    function scrollToId(id) { document.getElementById(id).scrollIntoView({ behavior: 'smooth', block: 'start' }); }
+    function setWeek(label) { document.getElementById('dashTitle').textContent = label + ' analysis'; }
+    function updateRole() {
+      const role = document.getElementById('role').value;
+      const permissions = {
+        'President': 'President view: complete overview with leadership notes, point trends, and council-wide analysis.',
+        'Teacher': 'Teacher view: edit points, update feedback categories, and open every section for in-depth analysis.',
+        'Council Member': 'Council member view: view-only access to all sections, all weeks, and point-type analysis.',
+        'Student': 'Student view: personal point summary, feedback highlights, and current-week standing.'
+      };
+      document.getElementById('permission').textContent = permissions[role];
+      document.getElementById('editValue').textContent = role === 'Teacher' || role === 'President' ? 'Enabled' : 'View only';
+    }
   </script>
 </body>
 </html>
