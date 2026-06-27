@@ -101,6 +101,8 @@
     .pills { display: flex; flex-wrap: wrap; gap: 10px; }
     .pill { border: 1px solid var(--line); border-radius: 999px; padding: 10px 14px; background: #fff; font-weight: 850; }
 
+    .login-grid { display: grid; grid-template-columns: 1fr; gap: 18px; }
+    .login-card { width: 100%; padding: 30px; }
     .login-grid { display: grid; grid-template-columns: minmax(280px, 560px); justify-content: center; gap: 18px; }
     .login-card { width: 100%; max-width: 560px; padding: 30px; }
     .login-card h3 { margin-top: 0; font-size: 1.55rem; letter-spacing: -0.04em; }
@@ -254,6 +256,9 @@
           <div class="panel" style="box-shadow: none;"><h3>Role permissions</h3><div class="access-row"><span>Identified as</span><b id="identified">Council President</b></div><div class="access-row"><span>Point type access</span><b id="pointType">All point types</b></div><div class="access-row"><span>Editing access</span><b id="editing">Enabled</b></div></div>
           <div class="panel" style="box-shadow: none;"><h3>In-depth analysis</h3><p id="analysisCopy">Choose any section, week, or analysis type to review council performance.</p><div class="score-row"><span>Service</span><span class="track"><span class="fill" style="--w:94%"></span></span><b>94</b></div><div class="score-row"><span>Spirit</span><span class="track"><span class="fill" style="--w:88%"></span></span><b>88</b></div><div class="score-row"><span>Events</span><span class="track"><span class="fill" style="--w:81%"></span></span><b>81</b></div></div>
         </div>
+      </div>
+    </section>
+
           <p class="logged-out-note" id="permission">Every login is valid for now. Choose your role, press Log in, and the dashboard will identify your access level.</p>
         </div>
         <div class="panel logged-in" id="loggedInPanel">
