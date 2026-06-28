@@ -1,23 +1,13 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta http-equiv="refresh" content="0; url=main-page/" />
-    <title>PathPride</title>
-    <script>
-      window.location.replace('main-page/');
-    </script>
-  </head>
-  <body>
-    <a href="main-page/">Continue to PathPride</a>
-    <meta http-equiv="refresh" content="0; url=/main-page/" />
-    <title>PathPride</title>
-    <script>
-      window.location.replace('/main-page/');
-    </script>
-  </head>
-  <body>
-    <a href="/main-page/">Continue to PathPride</a>
-  </body>
+<head>
+<meta charset="UTF-8">
+<title>PathPride/title>
+<script>
+  var path = window.location.pathname;
+  var base = path.endsWith('/') ? path : path.replace(/[^/]*$/, '');
+  window.location.replace(base + 'main-page/');
+</script>
+</head>
+<body></body>
 </html>
